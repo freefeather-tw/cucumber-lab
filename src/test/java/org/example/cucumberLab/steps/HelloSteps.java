@@ -20,10 +20,6 @@ public class HelloSteps {
 
   private String result;
 
-  @Given("I am on the homepage")
-  public void iAmOnTheHomepage() {
-  }
-
   @When("I call hello API")
   public void iCallHelloAPI() {
     this.result = this.restTemplate.getForObject("http://localhost:" + port + "/hello",

@@ -101,7 +101,7 @@ public class StepDefinitions {
 
 ![img_1.png](images/img_1.png)
 
-使用方法很簡單，首先，開啟Feature檔案。再出現警示符號的文字上按下小燈泡。
+使用方法很簡單，首先，開啟Feature檔案。在出現警示符號的文字上按下小燈泡。
 
 ![img.png](images/img_3.png)
 
@@ -224,7 +224,6 @@ public class UserSteps {
 Feature: Is HelloController working?
 
   Scenario:
-    Given I am on the homepage
     When I call hello API
     Then I should see the response body "Hello World!"
 ```
@@ -241,10 +240,6 @@ public class HelloSteps {
 
   private String result;
 
-  @Given("I am on the homepage")
-  public void iAmOnTheHomepage() {
-  }
-
   @When("I call hello API")
   public void iCallHelloAPI() {
     this.result = this.restTemplate.getForObject("http://localhost:" + port + "/hello",
@@ -257,7 +252,7 @@ public class HelloSteps {
   }
 }
 ```
-可以看到這個測試案例的 `Given` 跟 `When` 都沒有傳入參數，因為 `/hello` 這個API不需要傳入參數，所以就不需要在 `Given` 跟 `When` 中傳入參數。
+可以看到這個測試案例沒有`Given`，而且`When` 沒有傳入參數，因為 `/hello` 這個API不需要傳入參數，所以就不需要在 `When` 中傳入參數。
 只要取得 API 回傳的內容，並判斷其結果是否符合即可。
 
 `@LocalServerPort` 是告訴程式，要使用哪個Port來執行呼叫對應的API。
