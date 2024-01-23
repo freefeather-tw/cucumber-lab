@@ -1,0 +1,14 @@
+server:
+  port: 8080
+  shutdown: graceful
+
+spring:
+  config:
+    activate:
+      on-profile: test
+
+logging:
+  level:
+    root: ${LOGGING_LEVEL_ROOT:ERROR}
+
+

@@ -171,9 +171,9 @@ public class TestConfig {
 #### is_user_name_is_jack.feature
 這個測試案例的Story是要測試User這個 Bean 的名字是否為Jack。
 ```gherkin
-Feature: Is user's name Jack?
+Feature: 
 
-  Scenario Outline:
+  Scenario Outline: Is user's name Jack?
     Given I have a name "<name>"
     When I ask if my name is correct
     Then I should see "<result>"
@@ -257,6 +257,50 @@ public class HelloSteps {
 
 `@LocalServerPort` 是告訴程式，要使用哪個Port來執行呼叫對應的API。
 
+### 中文化
+#### console訊息中文化
+1. 在pom.xml中新增一plugin
+    ``` xml 
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.2.5</version>
+        <configuration>
+          <argLine>-Dfile.encoding=UTF-8</argLine>
+          <systemPropertyVariables>
+            <spring.profiles.active>test</spring.profiles.active>
+          </systemPropertyVariables>
+        </configuration>
+    </plugin>
+    ```
+2. 如pom.xml檔所描述，會使用test profile，所以在src/test/resources中新增application-test.yml
+    ``` yml
+    spring:
+      config:
+        activate:
+          on-profile: test
+    logging:
+      level:
+        root: ${LOGGING_LEVEL_ROOT:ERROR}
+    ```
+    spring.config.activate.on-profile: test 代表只有在test profile時才會啟用這個設定檔，
+    
+    主要是設定logging level，這邊設定為ERROR，所以console中只會顯示ERROR的訊息，其他的訊息都不會顯示。
 
+3. 設定src/test/resources/logback.xml，因為測試框架會在Spring boot之前啟動，設定logback.xml可以再濾除一些不用在console裡出現的訊息。
+    ```xml 
+    <?xml version="1.0" encoding="UTF-8"?>
+    <configuration>
+      <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+          <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+      </appender>
+    
+      <root level="ERROR">
+        <appender-ref ref="STDOUT" />
+      </root>
+    </configuration>
+    ```
 
 

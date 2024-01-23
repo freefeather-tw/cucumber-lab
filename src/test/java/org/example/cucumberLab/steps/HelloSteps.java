@@ -1,6 +1,5 @@
 package org.example.cucumberLab.steps;
 
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.junit.Cucumber;
@@ -20,13 +19,13 @@ public class HelloSteps {
 
   private String result;
 
-  @When("I call hello API")
+  @When("當我呼叫hello API")
   public void iCallHelloAPI() {
     this.result = this.restTemplate.getForObject("http://localhost:" + port + "/hello",
         String.class);
   }
 
-  @Then("I should see the response body {string}")
+  @Then("我應該看到response body顯示為 {string}")
   public void iShouldSeeTheResponseBody(String content) {
     assert (content.equals(this.result));
   }
